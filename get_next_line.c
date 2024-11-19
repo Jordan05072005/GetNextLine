@@ -17,15 +17,24 @@ char	*get_all_file(int fd, char *str)
 	char	*buf;
 	int		oct;
 
+	buf = NULL;
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (buf == NULL)
+	{
+		if (str)
+			free(str);
 		return (NULL);
+	}
 	oct = 1;
 	while (oct != 0 && in_str(str, '\n') == -1)
 	{
 		oct = read(fd, buf, BUFFER_SIZE);
 		if (oct < 0)
-			return (free(buf), free(str), NULL);
+		{
+			if (str)
+				free(str);
+			return (free(buf), NULL);
+		}
 		buf[oct] = '\0';
 		str = ft_strjoin(str, buf);
 	}
@@ -45,8 +54,6 @@ char	*get_lines(char *str, int i)
 	else
 		return (lign);
 }
-
-// chercher pourquoi +1 sur lign
 
 char	*get_end_file(char *str, int i)
 {
@@ -73,24 +80,3 @@ char	*get_next_line(int fd)
 	str = get_end_file(str, i);
 	return (lign);
 }
-
-/*
-int main(void)
-{
-	int	fd;
-	char	*line;
-
-	fd = open("empty.txt", O_RDONLY);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-}*/

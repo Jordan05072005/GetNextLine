@@ -25,7 +25,11 @@ char	*get_all_file(int fd, char *str)
 	{
 		oct = read(fd, buf, BUFFER_SIZE);
 		if (oct < 0)
-			return (free(buf), free(str), NULL);
+		{
+			if (str)
+				free(str);
+			return (free(buf), NULL);
+		}
 		buf[oct] = '\0';
 		str = ft_strjoin(str, buf);
 	}

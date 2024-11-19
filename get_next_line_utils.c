@@ -38,7 +38,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	dest = (char *)malloc((ft_strlen((const char *)s1)
 				+ ft_strlen((const char *)s2) + 1) * sizeof(char));
 	if (dest == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	while (s1[++i])
 		dest[i] = s1[i];
 	while (s2[j])
@@ -47,8 +47,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	dest[i + j] = '\0';
-	free(s1);
-	return (dest);
+	return (free(s1), dest);
 }
 
 int	in_str(char *str, char find)
